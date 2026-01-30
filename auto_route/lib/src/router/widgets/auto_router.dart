@@ -38,6 +38,11 @@ class AutoRouter extends StatefulWidget {
   /// The traversal edge behavior of the navigator
   final TraversalEdgeBehavior? traversalEdgeBehavior;
 
+  /// Whether or not the navigator and it's new topmost route
+  /// should request focus when the new route is pushed onto the navigator.
+  /// Defaults to true.
+  final bool requestFocus;
+
   /// Default constructor
   const AutoRouter({
     super.key,
@@ -49,6 +54,7 @@ class AutoRouter extends StatefulWidget {
     this.placeholder,
     this.clipBehavior = Clip.hardEdge,
     this.traversalEdgeBehavior,
+    this.requestFocus = true,
   });
 
   /// Builds a [_DeclarativeAutoRouter] which uses
@@ -65,6 +71,7 @@ class AutoRouter extends StatefulWidget {
     WidgetBuilder? placeholder,
     Clip clipBehavior = Clip.hardEdge,
     TraversalEdgeBehavior? traversalEdgeBehavior,
+    bool requestFocus = true,
   }) =>
       _DeclarativeAutoRouter(
         onPopRoute: onPopRoute,
@@ -77,6 +84,7 @@ class AutoRouter extends StatefulWidget {
         routes: routes,
         clipBehavior: clipBehavior,
         traversalEdgeBehavior: traversalEdgeBehavior,
+        requestFocus: requestFocus,
       );
 
   @override
@@ -172,6 +180,7 @@ class AutoRouterState extends State<AutoRouter> {
         navigatorObservers: _navigatorObservers,
         placeholder: widget.placeholder,
         routeTraversalEdgeBehavior: widget.traversalEdgeBehavior,
+        requestFocus: widget.requestFocus,
       ),
     );
     final stateHash = _controller!.stateHash;
@@ -222,6 +231,7 @@ class _DeclarativeAutoRouter extends StatefulWidget {
   final WidgetBuilder? placeholder;
   final Clip clipBehavior;
   final TraversalEdgeBehavior? traversalEdgeBehavior;
+  final bool requestFocus;
   const _DeclarativeAutoRouter({
     required this.routes,
     this.navigatorObservers = AutoRouterDelegate.defaultNavigatorObserversBuilder,
@@ -233,6 +243,7 @@ class _DeclarativeAutoRouter extends StatefulWidget {
     this.placeholder,
     this.clipBehavior = Clip.hardEdge,
     this.traversalEdgeBehavior,
+    this.requestFocus = true,
   });
 
   @override
@@ -313,6 +324,7 @@ class _DeclarativeAutoRouterState extends State<_DeclarativeAutoRouter> {
           didPop: widget.onPopRoute,
           placeholder: widget.placeholder,
           routeTraversalEdgeBehavior: widget.traversalEdgeBehavior,
+          requestFocus: widget.requestFocus,
         ),
       ),
     );

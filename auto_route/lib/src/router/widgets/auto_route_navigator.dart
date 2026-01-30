@@ -41,6 +41,11 @@ class AutoRouteNavigator extends StatefulWidget {
   /// The traversal edge behavior of the navigator
   final TraversalEdgeBehavior? routeTraversalEdgeBehavior;
 
+  /// Whether or not the navigator and it's new topmost route
+  /// should request focus when the new route is pushed onto the navigator.
+  /// Defaults to true.
+  final bool requestFocus;
+
   /// Default constructor
   const AutoRouteNavigator({
     required this.router,
@@ -51,6 +56,7 @@ class AutoRouteNavigator extends StatefulWidget {
     this.placeholder,
     this.clipBehavior = Clip.hardEdge,
     this.routeTraversalEdgeBehavior,
+    this.requestFocus = true,
     super.key,
   });
 
@@ -100,6 +106,7 @@ class AutoRouteNavigatorState extends State<AutoRouteNavigator> {
             observers: [widget.router.pagelessRoutesObserver, ...widget.navigatorObservers],
             restorationScopeId: widget.navRestorationScopeId ?? widget.router.routeData.restorationId,
             pages: widget.router.stack,
+            requestFocus: widget.requestFocus,
             onDidRemovePage: (page) {
               if (page is AutoRoutePage) {
                 widget.router.onPopPage(page);
